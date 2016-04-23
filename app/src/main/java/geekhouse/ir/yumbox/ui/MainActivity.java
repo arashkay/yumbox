@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
           }).build().show();
   }
-
+  
   private void isFirstLaunch() {
     SharedPreferences sharedPref = this.getPreferences(MODE_PRIVATE);
     if (sharedPref.getBoolean(Constants.IS_FIRST_TIME, true)) {
