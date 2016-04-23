@@ -1,6 +1,5 @@
 package geekhouse.ir.yumbox.ui.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,7 +81,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_activity_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_main_activity, container, false);
 
         viewNum = getArguments().getInt("num");
 
@@ -117,13 +116,13 @@ public class MainActivityFragment extends Fragment {
             } catch (ParseException e) {
                 dayTextView.setText(at);
             }
-            Constants.sendDay = dayTextView.getText().toString();
         }
     }
 
     @OnClick(R.id.floating_action_button)
     @SuppressWarnings("unused")
     public void doneOnClickListener() {
+        Constants.sendDay = dayTextView.getText().toString();
         Constants.numOrders = i;
         Constants.viewNum = viewNum;
         startActivity(new Intent(getActivity(), OrderActivity.class));
@@ -247,7 +246,7 @@ public class MainActivityFragment extends Fragment {
         if (remaining > 20)
             textViewDown.setText(remaining + " پرس باقی مانده");
         else
-            textViewDown.setText("تنها" + remaining + " پرس باقی مانده");
+            textViewDown.setText(" تنها " + remaining + " پرس باقی مانده");
         textViewPrice.setText(i * price + " تومان ");
         textViewQuantity.setText(i + " پرس ");
     }

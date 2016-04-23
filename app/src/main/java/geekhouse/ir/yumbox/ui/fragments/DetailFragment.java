@@ -48,7 +48,7 @@ public class DetailFragment extends AppCompatDialogFragment {
         viewNumber = bundle.getInt("num");
 
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .customView(R.layout.detail_page_fragment, false)
+                .customView(R.layout.fragment_detail_page, false)
                 .show();
         View detailPage = dialog.getCustomView();
         ButterKnife.bind(this, detailPage);

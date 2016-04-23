@@ -146,5 +146,8 @@
 
 
   </string-array>
+  <string name="title_activity_profile">ProfileActivity</string>
+
+  <string name="hello_world">Hello world!</string>
 
 </resources>

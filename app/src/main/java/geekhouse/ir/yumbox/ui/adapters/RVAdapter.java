@@ -15,16 +15,16 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import geekhouse.ir.yumbox.R;
 import geekhouse.ir.yumbox.data.api.models.Customer.orderHistory;
-import geekhouse.ir.yumbox.ui.OrderActivity;
 import geekhouse.ir.yumbox.ui.fragments.MainActivityFragment;
-import geekhouse.ir.yumbox.util.DailyMeals;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
@@ -85,9 +85,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v;
         if (i == BUTTON)
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.call_button_item, viewGroup, false);
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_call_button, viewGroup, false);
         else
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.order_history_item, viewGroup, false);
+            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_history, viewGroup, false);
         TypefaceHelper.typeface(v);
         return new PersonViewHolder(v);
     }
@@ -102,7 +102,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             personViewHolder.quantity.setText(orders.get(i).quantity + " پرس ");
             personViewHolder.price.setText(orders.get(i).quantity * orders.get(i).daily_meal.main_dish.price
                     + " تومان ");
-            personViewHolder.sendDay.setText(orders.get(i).status);
+            if (orders.get(i).status.equals("pending"))
+                personViewHolder.sendDay.setText("در حال ارسال");
+            else
+                personViewHolder.sendDay.setText("ارسال شده");
             personViewHolder.orderedAt.setText(orderedAt(i));
         } else {
             personViewHolder.fab.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +129,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         String at = orders.get(i).at;
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         at = (at.substring(0, Math.min(at.length(), 16)));
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String now = df.format(new Date());
+        String now = df.format(getNowAU());
 
         int minutesNow = Integer.parseInt(now.valueOf(now.charAt(14)) + now.valueOf(now.charAt(15)));
         int hoursNow = Integer.parseInt(now.valueOf(now.charAt(11)) + now.valueOf(now.charAt(12)));
@@ -140,9 +142,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         int daysAt = Integer.parseInt(at.valueOf(at.charAt(8)) + at.valueOf(at.charAt(9)));
         int monthsAt = Integer.parseInt(at.valueOf(at.charAt(5)) + at.valueOf(at.charAt(6)));
         int yearsAt = Integer.parseInt(at.valueOf(at.charAt(2)) + at.valueOf(at.charAt(3)));
-
-        hoursAt = hoursAt - 14;
-        minutesAt = minutesAt - 28;
 
         if (yearsNow - yearsAt != 0)
             return (yearsNow - yearsAt) + " سال پیش " ;
@@ -158,5 +157,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             else
                 return (minutesNow - minutesAt) + " دقیقه پیش ";
         }
+    }
+
+    private Date getNowAU() {
+        Calendar calendar = new GregorianCalendar();
+        TimeZone timeZone = TimeZone.getTimeZone("Iran/Tehran");
+        calendar.setTimeZone(timeZone);
+
+        return calendar.getTime();
     }
 }

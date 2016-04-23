@@ -3,12 +3,12 @@ package geekhouse.ir.yumbox.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,177 +39,202 @@ import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
 
-    private final Context context = this;
+  private final Context context = this;
 
-    @Bind(R.id.address) EditText address;
-    @Bind(R.id.name) EditText name;
-    @Bind(R.id.cellphone) EditText cellphone;
+  @Bind(R.id.address) EditText address;
+  @Bind(R.id.name) EditText name;
+  @Bind(R.id.cellphone) EditText cellphone;
 
-    @Bind(R.id.number_of_orders) TextView numOrders;
-    @Bind(R.id.price) TextView price;
-    @Bind(R.id.send_day) TextView sendDay;
+  @Bind(R.id.number_of_orders) TextView numOrders;
+  @Bind(R.id.price) TextView price;
+  @Bind(R.id.send_day) TextView sendDay;
 
-    @Bind(R.id.main_course) CircleImageView mainCourse;
-    @Bind(R.id.left_little_pic) CircleImageView leftPic;
-    @Bind(R.id.middle_little_pic) CircleImageView middlePic;
-    @Bind(R.id.right_little_pic) CircleImageView rightPic;
+  @Bind(R.id.main_course) CircleImageView mainCourse;
+  @Bind(R.id.left_little_pic) CircleImageView leftPic;
+  @Bind(R.id.middle_little_pic) CircleImageView middlePic;
+  @Bind(R.id.right_little_pic) CircleImageView rightPic;
 
-    @Bind(R.id.region) AutoCompleteTextView region;
+  @Bind(R.id.region) TextView region;
 
-    @Bind(R.id.order_page_floating_action_button) FloatingActionButton done;
+  @Bind(R.id.order_page_floating_action_button) FloatingActionButton done;
 
-    @Inject ApiService apiService;
-    static SharedPreferences sharedPreferences;
+  @Inject ApiService apiService;
+  static SharedPreferences sharedPreferences;
 
-    final String PERSIAN_WORDS = "^[\\u0600-\\u06FF\\uFB8A\\u067E\\u0686\\u06AF]+$";
+  final String PERSIAN_WORDS = "^[\\u0600-\\u06FF\\uFB8A\\u067E\\u0686\\u06AF]+$";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_activity);
-        ButterKnife.bind(this);
-        ((YumboxApp) getApplication()).getComponent().inject(this);
-        setRegionAdapter();
-        TypefaceHelper.typeface(this);
-        setImagesAndText();
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_order);
+    ButterKnife.bind(this);
+    ((YumboxApp) getApplication()).getComponent().inject(this);
+    sharedPreferences = getApplication().getSharedPreferences("auth", MODE_PRIVATE);
+    setFieldValues();
+    if (Build.VERSION.SDK_INT >= 19)
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        setRegionAdapter();
+    TypefaceHelper.typeface(this);
+    setImagesAndText();
+  }
+
+  @OnClick(R.id.order_page_floating_action_button)
+  @SuppressWarnings("unused")
+  public void doneClickListener() {
+    String token = sharedPreferences.getString("authorization", "");
+    if (!token.isEmpty())
+      Constants.token = token;
+    if (token.isEmpty())
+      token = null;
+    if (Helper.isConnected()) {
+      if (editTextValidation()) {
+        apiService.signUp(Constants.numOrders,
+            DailyMeals.dailyMeals.get(Constants.viewNum).doc_key,
+            new Customer(cellphone.getText().toString(),
+                address.getText().toString(), name.getText().toString()),
+            token)
+            .enqueue(new Callback<Success>() {
+              @Override
+              public void onResponse(Call<Success> call, Response<Success> response) {
+                try {
+                  if (response.body().success) {
+                    setTokenIfFirstTime(response);
+                    saveFieldValues();
+                    startActivity(new Intent(context, OrderHistory.class));
+                  }
+                } catch (NullPointerException e) {
+                  new MaterialDialog.Builder(context)
+                      .content("مشکلی پیش آمده, دوباره تلاش کنید")
+                      .contentGravity(GravityEnum.END)
+                      .buttonsGravity(GravityEnum.START)
+                      .cancelable(false).onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                      dialog.cancel();
+                      done.performClick();
+                    }
+                  }).build().show();
+                }
+              }
+
+              @Override
+              public void onFailure(Call<Success> call, Throwable t) {
+                new MaterialDialog.Builder(context)
+                    .content("متاسفانه در سرور مشکلی وجود دارد لطفا بعدا تلاش کنید")
+                    .cancelable(true)
+                    .build().show();
+              }
+            });
+      }
+    } else {
+      Helper.showNoInternetToast(context);
+    }
+  }
+
+//    /**
+//     * set strings for autoComplete
+//     */
+//    private void setRegionAdapter() {
+//
+//        String[] regions = getResources().getStringArray(R.array.list_of_regions);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, regions);
+//        region.setAdapter(adapter);
+//    }
+
+  private void setImagesAndText() {
+    setImages();
+    price.setText(DailyMeals.dailyMeals.get(Constants.viewNum).main_dish.price * Constants.numOrders + " تومان");
+    numOrders.setText(Constants.numOrders + " پرس");
+    sendDay.setText(Constants.sendDay);
+  }
+
+  private void setImages() {
+    Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(mainCourse);
+    Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(leftPic);
+    Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(middlePic);
+    Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(rightPic);
+  }
+
+  private boolean editTextValidation() {
+
+    if (region.getText().toString().trim().length() == 0) {
+      region.setError(getResources().getString(R.string.region_required_hint_empty));
+      region.requestFocus();
+      return false;
     }
 
-    @OnClick(R.id.order_page_floating_action_button)
-    @SuppressWarnings("unused")
-    public void doneClickListener() {
-        sharedPreferences = getApplication().getSharedPreferences("auth", MODE_PRIVATE);
-        String token = sharedPreferences.getString("authorization", "");
-        if (!token.isEmpty())
-            Constants.token = token;
-        if (token.isEmpty())
-            token = null;
-        if (Helper.isConnected()) {
-            if (editTextValidation()) {
-                apiService.signUp(Constants.numOrders,
-                        DailyMeals.dailyMeals.get(Constants.viewNum).doc_key,
-                        new Customer(cellphone.getText().toString(),
-                                address.getText().toString(), name.getText().toString()),
-                        token)
-                        .enqueue(new Callback<Success>() {
-                            @Override
-                            public void onResponse(Call<Success> call, Response<Success> response) {
-                                try {
-                                    if (response.body().success) {
-                                        setTokenIfFirstTime(response);
-                                        startActivity(new Intent(context, OrderHistory.class));
-                                    }
-                                } catch (NullPointerException e) {
-                                    new MaterialDialog.Builder(context)
-                                            .content("مشکلی پیش آمده, دوباره تلاش کنید")
-                                            .contentGravity(GravityEnum.END)
-                                            .buttonsGravity(GravityEnum.START)
-                                            .cancelable(false).onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            dialog.cancel();
-                                            done.performClick();
-                                        }
-                                    }).build().show();
-                                }
-                            }
+    if (region.getText().toString().contains(PERSIAN_WORDS)) {
 
-                            @Override
-                            public void onFailure(Call<Success> call, Throwable t) {
-                                new MaterialDialog.Builder(context)
-                                        .content("متاسفانه مشکلی پیش آمده")
-                                        .cancelable(true)
-                                        .build().show();
-                            }
-                        });
-            }
-        } else {
-            Helper.showNoInternetToast(context);
-        }
+      region.setError(getResources().getString(R.string.region_required_hint_wrong));
+      region.requestFocus();
+      return false;
     }
 
-    /**
-     * set strings for autoComplete
-     */
-    private void setRegionAdapter() {
-
-        String[] regions = getResources().getStringArray(R.array.list_of_regions);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, regions);
-        region.setAdapter(adapter);
+    if (address.getText().toString().trim().length() == 0) {
+      address.setError(getResources().getString(R.string.region_required_hint_empty));
+      address.requestFocus();
+      return false;
     }
 
-    private void setImagesAndText() {
-        setImages();
-        price.setText(DailyMeals.dailyMeals.get(Constants.viewNum).main_dish.price * Constants.numOrders + " تومان");
-        numOrders.setText(Constants.numOrders + " پرس");
-        sendDay.setText(Constants.sendDay);
+    if (address.getText().toString().contains(PERSIAN_WORDS)) {
+
+      address.setError(getResources().getString(R.string.address_required_hint_wrong));
+      address.requestFocus();
+      return false;
     }
 
-    private void setImages() {
-        Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(mainCourse);
-        Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(leftPic);
-        Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(middlePic);
-        Picasso.with(this).load(MainActivityFragment.TEST_PIC).into(rightPic);
+    if (name.getText().toString().trim().length() == 0) {
+      name.setError(getResources().getString(R.string.name_required_hint_empty));
+      name.requestFocus();
+      return false;
     }
 
-    private boolean editTextValidation() {
 
-        if (region.getText().toString().trim().length() == 0 ) {
-            region.setError(getResources().getString(R.string.region_required_hint_empty));
-            region.requestFocus();
-            return false;
-        }
+    if (name.getText().toString().contains(PERSIAN_WORDS)) {
 
-        if (region.getText().toString().contains(PERSIAN_WORDS)) {
-
-            region.setError(getResources().getString(R.string.region_required_hint_wrong));
-            region.requestFocus();
-            return false;
-        }
-
-        if (address.getText().toString().trim().length() == 0) {
-            address.setError(getResources().getString(R.string.region_required_hint_empty));
-            address.requestFocus();
-            return false;
-        }
-
-        if (address.getText().toString().contains(PERSIAN_WORDS)) {
-
-            address.setError(getResources().getString(R.string.address_required_hint_wrong));
-            address.requestFocus();
-            return false;
-        }
-
-        if (name.getText().toString().trim().length() == 0) {
-            name.setError(getResources().getString(R.string.name_required_hint_empty));
-            name.requestFocus();
-            return false;
-        }
-
-
-        if (name.getText().toString().contains(PERSIAN_WORDS)) {
-
-            name.setError(getResources().getString(R.string.name_required_hint_wrong));
-            name.requestFocus();
-            return false;
-        }
-
-        if (!cellphone.getText().toString().startsWith("09") || cellphone.getText().toString().length() != 11) {
-
-            cellphone.setError(getResources().getString(R.string.cell_phone_wrong_hint));
-            cellphone.requestFocus();
-            return false;
-        }
-
-        return true;
+      name.setError(getResources().getString(R.string.name_required_hint_wrong));
+      name.requestFocus();
+      return false;
     }
 
-    private void setTokenIfFirstTime(Response response) {
-        if (sharedPreferences.getString("authorization", "").isEmpty()) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("authorization", response.headers().get("authorization"));
-            Constants.token = response.headers().get("authorization");
-            editor.apply();
-        }
+    if (!cellphone.getText().toString().startsWith("09") || cellphone.getText().toString().length() != 11) {
+
+      cellphone.setError(getResources().getString(R.string.cell_phone_wrong_hint));
+      cellphone.requestFocus();
+      return false;
     }
+
+    return true;
+  }
+
+  private void setTokenIfFirstTime(Response response) {
+    if (sharedPreferences.getString("authorization", "").isEmpty()) {
+      SharedPreferences.Editor editor = sharedPreferences.edit();
+      editor.putString("authorization", response.headers().get("authorization"));
+      Constants.token = response.headers().get("authorization");
+      editor.apply();
+    }
+  }
+
+  private void saveFieldValues() {
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putString("address", address.getText().toString());
+    editor.putString("cellphone", cellphone.getText().toString());
+    editor.putString("name", name.getText().toString());
+    editor.apply();
+  }
+
+  private void setFieldValues() {
+    address.setText(sharedPreferences.getString("address", ""));
+    cellphone.setText(sharedPreferences.getString("cellphone", ""));
+    name.setText(sharedPreferences.getString("name", ""));
+    if (! sharedPreferences.getString("address", "").isEmpty()) {
+      getWindow().setSoftInputMode(
+          WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+      );
+    }
+  }
 
 }

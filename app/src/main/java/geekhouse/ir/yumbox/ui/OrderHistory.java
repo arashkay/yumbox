@@ -1,6 +1,7 @@
 package geekhouse.ir.yumbox.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -30,82 +31,88 @@ import retrofit2.Response;
 
 public class OrderHistory extends AppCompatActivity {
 
-    @Inject ApiService apiService;
+  @Inject ApiService apiService;
 
-    private List<orderHistory> orders;
-    private RecyclerView rv;
-    private Context context = this;
+  private List<orderHistory> orders;
+  private RecyclerView rv;
+  private Context context = this;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.order_history);
+    setContentView(R.layout.activity_order_history);
 
-        ((YumboxApp) getApplication()).getComponent().inject(this);
+    ((YumboxApp) getApplication()).getComponent().inject(this);
 
-        rv = (RecyclerView) findViewById(R.id.rv);
+    rv = (RecyclerView) findViewById(R.id.rv);
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
-        rv.setHasFixedSize(true);
+    LinearLayoutManager llm = new LinearLayoutManager(this);
+    rv.setLayoutManager(llm);
+    rv.setHasFixedSize(true);
 
-        initializeData();
+    initializeData();
 
-        TypefaceHelper.typeface(this);
-    }
+    TypefaceHelper.typeface(this);
+  }
 
-    private void initializeData() {
-        if (Constants.token != null && !Constants.token.isEmpty())
-            apiService.getOrderHistory(Constants.token).enqueue(new Callback<History>() {
-                @Override
-                public void onResponse(Call<History> call, Response<History> response) {
-                    try {
-                        if (response.body().error == null) {
-                            orders = new ArrayList<>();
-                            if (response.body().data.size() > 0) {
-                                for (int i = 0; i < response.body().data.size(); i++) {
-                                    orders.add(new orderHistory(response.body().data.get(i).at,
-                                            response.body().data.get(i).quantity,
-                                            response.body().data.get(i).status,
-                                            response.body().data.get(i).daily_meal));
-                                }
-                            }
-                            initializeAdapter();
-                        } else
-                            new MaterialDialog.Builder(context)
-                                    .content("مشکلی پیش آمده, دوباره تلاش کنید")
-                                    .contentGravity(GravityEnum.END)
-                                    .buttonsGravity(GravityEnum.START)
-                                    .cancelable(false).onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.cancel();
-                                }
-                            }).build().show();
-                    } catch (NullPointerException e) {
-                        new MaterialDialog.Builder(context)
-                                .content("مشکلی در سرور پیش آمده, لطفا بعدا امتحان کنید")
-                                .contentGravity(GravityEnum.END)
-                                .buttonsGravity(GravityEnum.START)
-                                .cancelable(false).onNeutral(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                dialog.cancel();
-                            }
-                        }).build().show();
-                    }
+  private void initializeData() {
+    if (Constants.token != null && !Constants.token.isEmpty())
+      apiService.getOrderHistory(Constants.token).enqueue(new Callback<History>() {
+        @Override
+        public void onResponse(Call<History> call, Response<History> response) {
+          try {
+            if (response.body().error == null) {
+              orders = new ArrayList<>();
+              if (response.body().data.size() > 0) {
+                for (int i = 0; i < response.body().data.size(); i++) {
+                  orders.add(new orderHistory(response.body().data.get(i).at,
+                      response.body().data.get(i).quantity,
+                      response.body().data.get(i).status,
+                      response.body().data.get(i).daily_meal));
                 }
-
+              }
+              initializeAdapter();
+            } else
+              new MaterialDialog.Builder(context)
+                  .content("مشکلی پیش آمده, دوباره تلاش کنید")
+                  .contentGravity(GravityEnum.END)
+                  .buttonsGravity(GravityEnum.START)
+                  .cancelable(false).onNeutral(new MaterialDialog.SingleButtonCallback() {
                 @Override
-                public void onFailure(Call<History> call, Throwable t) {
-
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                  dialog.cancel();
                 }
-            });
-    }
+              }).build().show();
+          } catch (NullPointerException e) {
+            new MaterialDialog.Builder(context)
+                .content("مشکلی در سرور پیش آمده, لطفا بعدا امتحان کنید")
+                .contentGravity(GravityEnum.END)
+                .buttonsGravity(GravityEnum.START)
+                .cancelable(false).onNeutral(new MaterialDialog.SingleButtonCallback() {
+              @Override
+              public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                dialog.cancel();
+              }
+            }).build().show();
+          }
+        }
 
-    private void initializeAdapter() {
-        RVAdapter adapter = new RVAdapter(orders, context);
-        rv.setAdapter(adapter);
-    }
+        @Override
+        public void onFailure(Call<History> call, Throwable t) {
+
+        }
+      });
+  }
+
+  private void initializeAdapter() {
+    RVAdapter adapter = new RVAdapter(orders, context);
+    rv.setAdapter(adapter);
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    startActivity(new Intent(this, MainActivity.class));
+  }
 }
