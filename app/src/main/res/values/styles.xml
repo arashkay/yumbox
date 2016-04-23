@@ -1,0 +1,23 @@
+<resources>
+
+  <style name="little_pics_size">
+    <item name="android:layout_width">55dp</item>
+    <item name="android:layout_height">55dp</item>
+  </style>
+
+  <style name="center">
+    <item name="android:layout_gravity">center_horizontal</item>
+    <item name="android:gravity">center</item>
+  </style>
+
+  <style name="bold_and_white">
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">#FFFFFF</item>
+  </style>
+
+  <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+    <item name="spinBars">true</item>
+    <item name="color">@android:color/white</item>
+  </style>
+
+</resources>

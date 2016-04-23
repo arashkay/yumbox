@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="button_margin">0dp</dimen>
+  <dimen name="Order_activity_button_margin">20dp</dimen>
+
+  <dimen name="first_key_line">8dp</dimen>
+  <dimen name="second_key_line">16dp</dimen>
+
+  <dimen name="small_pic">40dp</dimen>
+  <dimen name="order_image_height">175dp</dimen>
+  <dimen name="order_image_height_progress">225dp</dimen>
+</resources>

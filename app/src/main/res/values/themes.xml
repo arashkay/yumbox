@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:listDivider">@color/divider_color</item>
+  </style>
+
+  <style name="MainActivityTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="android:listDivider">@color/divider_color</item>
+  </style>
+
+  <style name="OrderAddressTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorControlNormal">#ffffff</item>
+    <item name="colorControlActivated">#ffffff</item>
+    <item name="colorControlHighlight">@color/submit_button</item>
+  </style>
+
+</resources>

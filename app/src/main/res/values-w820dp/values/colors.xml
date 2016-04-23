@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorPrimary">#212121</color>
+  <color name="colorPrimaryLight">#727272</color>
+  <color name="colorAccent">#FF4081</color>
+  <color name="background_color">#9B26AF</color>
+  <color name="text_color">#FFFFFF</color>
+  <color name="remaining_food">#FFCDD2</color>
+  <color name="submit_button">#FE5621</color>
+  <color name="yum_box_color">#FFC37E</color>
+  <color name="launch_text_color">#3B2822</color>
+  <color name="border_color">#49332C</color>
+</resources>

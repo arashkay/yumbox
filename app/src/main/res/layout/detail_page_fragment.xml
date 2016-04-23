@@ -1,0 +1,90 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/food_image_detail_page"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_margin="-16dp"
+        android:contentDescription="@string/app_name"
+        tools:src="@drawable/yumboxintro"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/second_key_line"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/collery_detail_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/second_key_line"
+            android:layout_marginStart="@dimen/second_key_line"
+            android:gravity="end"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/food_name_detail_page"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/second_key_line"
+            android:layout_marginEnd="@dimen/second_key_line"
+            android:gravity="start"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ingredients_detail_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="start"
+        android:layout_marginLeft="@dimen/second_key_line"
+        android:layout_marginStart="@dimen/second_key_line"
+        android:layout_marginRight="@dimen/second_key_line"
+        android:layout_marginEnd="@dimen/second_key_line"
+        android:textColor="@color/colorPrimaryLight"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/description_detail_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_margin="@dimen/second_key_line"
+            android:textColor="@color/colorPrimaryLight"/>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/close_detail_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="@dimen/second_key_line"
+        android:layout_marginStart="@dimen/second_key_line"
+        android:padding="15dp"
+        android:text="@string/close"
+        android:textColor="#328AFB"/>
+
+</LinearLayout>

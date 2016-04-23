@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorPrimary">#212121</color>
+  <color name="colorPrimaryLight">#727272</color>
+  <color name="colorAccent">#FF4081</color>
+  <color name="background_color">#24201B</color>
+  <color name="text_color">#FFFFFF</color>
+  <color name="remaining_color">#D0C4C0</color>
+  <color name="remaining_food">#FFCDD2</color>
+  <color name="submit_button">#FE5621</color>
+  <color name="yum_box_color">#FFC37E</color>
+  <color name="launch_text_color">#3C2821</color>
+  <color name="border_color">#49332C</color>
+  <color name="close_color">#328AFB</color>
+  <color name="menu_color">#352521</color>
+  <color name="circular_progress">#FE4B1E</color>
+  <color name="divider_color">#A37566</color>
+</resources>

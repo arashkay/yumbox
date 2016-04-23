@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorAccent">#FFFFFF</item>
+    <item name="android:textColorSecondary">#FFFFFF</item>
+  </style>
+
+</resources>

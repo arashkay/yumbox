@@ -1,0 +1,150 @@
+<resources>
+  <string name="app_name">YUM\nBOX</string>
+  <string name="today">امروز</string>
+  <string name="tomorrow">فردا</string>
+  <string name="in2days">پس فردا</string>
+  <string name="submit_order">ثبت سفارش</string>
+  <string name="enter_full_name">نام و نام خانوادگی</string>
+  <string name="enter_info">مشخصات دریافت کننده</string>
+  <string name="title_activity_launch">LaunchActivity</string>
+  <string name="disabled">این بخش از برنامه فعال نشده است</string>
+  <string name="action_settings">Settings</string>
+  <string name="intro_first_page">غذای سالم با طعم خانگی</string>
+  <string name="intro_second_page">پخت روزانه با مواد تازه</string>
+  <string name="select_region">انتخاب محله</string>
+  <string name="address">آدرس</string>
+  <string name="cell_phone">موبایل</string>
+  <string name="close">بستن</string>
+  <string name="k_calorie">کیلو کالری</string>
+  <string name="cell_phone_required_hint"> لطفا شماره تلفن خود را وارد کنید </string>
+  <string name="cell_phone_wrong_hint">لطفا شماره تلفن خود را به درستی وارد کنید</string>
+  <string name="name_required_hint_wrong">لطفا نام و نام خانوادگی خود را به درستی وارد کنید</string>
+  <string name="name_required_hint_empty">لطفا نام و نام خانوادگی خود را وارد کنید</string>
+  <string name="address_required_hint_empty">لطفا آدرس خود را وارد نمایید</string>
+  <string name="address_required_hint_wrong">لطفا آدرس خود را به درستی وارد نمایید</string>
+  <string name="region_required_hint_empty">لطفا محله خود را وارد کنید</string>
+  <string name="region_required_hint_wrong">لطفا محله خود را به درستی وارد کنید</string>
+  <string-array name="list_of_regions">
+    <item>تجریش</item>
+    <item>فرمانیه</item>
+    <item>زعفرانیه</item>
+    <item>آجودانیه</item>
+    <item>نیاوران</item>
+    <item>قلهک</item>
+    <item>پل رومی</item>
+    <item>اقدسیه</item>
+    <item>جماران</item>
+    <item>چیذر</item>
+    <item>دارآباد</item>
+    <item>باغ فردوس</item>
+    <item>آراج</item>
+    <item>ازگل</item>
+    <item>لویزان</item>
+    <item>مینی سیتی</item>
+    <item>سوهانک</item>
+    <item>دروس</item>
+    <item>داودیه</item>
+    <item>دزاشیب</item>
+    <item>زرگنده</item>
+    <item>جردن</item>
+    <item>فرشته</item>
+    <item>الهیه</item>
+    <item>کامرانیه</item>
+    <item>ولنجک</item>
+    <item>اوین</item>
+    <item>ظفر</item>
+    <item>صاحبقرانیه</item>
+    <item>محمودیه</item>
+    <item>درکه</item>
+    <item>فرحزاد</item>
+    <item>سعادت آباد</item>
+    <item>شهرک غرب</item>
+    <item>گاندی</item>
+    <item>تهران نو</item>
+    <item>تهرانپارس</item>
+    <item>نارمک</item>
+    <item>شهرک امید</item>
+    <item>پیروزی</item>
+    <item>گرگان</item>
+    <item>وحیدیه</item>
+    <item>کالاد</item>
+    <item>شمس‌آباد</item>
+    <item>حکیمیه</item>
+    <item>نیروی هوایی</item>
+    <item>نظام آباد</item>
+    <item>مجیدیه</item>
+    <item>حشمتیه</item>
+    <item>منصورآباد</item>
+    <item>پونک</item>
+    <item>ستارخان</item>
+    <item>آریاشهر</item>
+    <item>جنت آباد</item>
+    <item>شهر زیبا</item>
+    <item>شهران</item>
+    <item>طرشت</item>
+    <item>گیشا</item>
+    <item>چیتگر</item>
+    <item>تهرانسر</item>
+    <item>حصارک</item>
+    <item>آزادی</item>
+    <item>فردوس</item>
+    <item>شهرک اکباتان</item>
+    <item>شهرک آپادانا</item>
+    <item>کن</item>
+    <item>مشیریه</item>
+    <item>کاروان</item>
+    <item>رضویه</item>
+    <item>شهرک مسعودیه</item>
+    <item>افسریه</item>
+    <item>خانی آباد نو</item>
+    <item>نازی آباد</item>
+    <item>یاخچی آباد</item>
+    <item>امیربهادر</item>
+    <item>کشتارگاه</item>
+    <item>آذری</item>
+    <item>اتابک</item>
+    <item>خراسان</item>
+    <item>خزانه فلاح</item>
+    <item>خزانه بخارایی</item>
+    <item>شاپور</item>
+    <item>مولوی</item>
+    <item>سیروس</item>
+    <item> آب منگل</item>
+    <item>دروازه غار</item>
+    <item>جوادیه</item>
+    <item>یافت آباد</item>
+    <item>منیریه</item>
+    <item>امیریه</item>
+    <item>شوش</item>
+    <item>بازار تهران</item>
+    <item>جی</item>
+    <item>یوسف آباد</item>
+    <item>امیرآباد</item>
+    <item>عباس‌آباد</item>
+    <item>جلفا</item>
+    <item>خواجه عبدالله</item>
+    <item>بهارشیراز</item>
+    <item>زرتشت</item>
+    <item>بهجت آباد</item>
+    <item>تخت جمشید</item>
+    <item>تخت طاووس</item>
+    <item>سهروردی</item>
+    <item>آپادانا</item>
+    <item>توحید</item>
+    <item>طالقانی</item>
+    <item>نادری</item>
+    <item>جمهوری</item>
+    <item>استانبول</item>
+    <item>توپخانه</item>
+    <item>لاله زار</item>
+    <item>باغ صبا</item>
+    <item>فاطمی</item>
+    <item>آرژانتین</item>
+    <item>آذربایجان</item>
+    <item>لاله</item>
+    <item>انقلاب</item>
+
+
+  </string-array>
+
+</resources>

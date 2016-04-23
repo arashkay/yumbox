@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="order_image_height">75dp</dimen>
+  <dimen name="small_pic">32dp</dimen>
+  <dimen name="order_image_height_progress">105dp</dimen>
+</resources>

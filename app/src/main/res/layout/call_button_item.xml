@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/second_key_line">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/call_fab"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_call_white_24dp"
+        android:visibility="visible"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="@dimen/first_key_line"
+        android:layout_centerHorizontal="true"
+        app:backgroundTint="@color/submit_button"
+        />
+
+</RelativeLayout>

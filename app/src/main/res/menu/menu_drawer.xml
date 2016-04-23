@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="HTTP://SCHEMAS.ANDROID.COM/TOOLS"
+      tools:context="nkdroid.tutorial.navigationview.MainActivity">
+    <group android:id="@+id/gp1" android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_1"
+            android:icon="@drawable/account_circle"
+            android:title=""
+            />
+    </group>
+    <group android:id="@+id/gp2" android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_2"
+            android:icon="@drawable/telephone"
+            android:title=""
+            />
+    </group>
+    <group android:id="@+id/gp3" android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_3"
+            android:icon="@drawable/receipt"
+            android:title=""/>
+    </group>
+    <group android:id="@+id/gp4" android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_4"
+            android:icon="@drawable/mail"
+            android:title=""/>
+    </group>
+
+    <group android:id="@+id/gp5">
+        <item
+            android:id="@+id/navigation_item_5"
+            android:title=""/>
+    </group>
+</menu>
