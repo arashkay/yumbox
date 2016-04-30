@@ -208,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(Intent.createChooser(intent, "Send Email"));
         break;
     }
+    
+    mDrawerLayout.closeDrawer(Gravity.RIGHT);
   }
 
   @Override
