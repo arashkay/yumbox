@@ -79,6 +79,12 @@ public class OrderActivity extends AppCompatActivity {
     TypefaceHelper.typeface(this);
     setImagesAndText();
   }
+  
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    startActivity(new Intent(this, MainActivity.class));
+  }
 
   @OnClick(R.id.order_page_floating_action_button)
   @SuppressWarnings("unused")
